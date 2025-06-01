@@ -1,0 +1,40 @@
+import { Title } from '@/components/Title';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router';
+
+export const WelcomePage = () => {
+  return (
+    <div>
+      <Title variant="h1" text="Priorización de Backlog para un Srint" />
+      <div className="my-8">
+        <p className="my-2">
+          ¡Hola! Desde el Centro de Investigación LIFIA de la UNLP te
+          agradecemos por tomarte unos minutos para participar de este
+          ejercicio.
+        </p>
+        <p className="my-2">
+          El objetivo es simular una situación habitual en equipos ágiles:
+          decidir qué tareas o problemas resolver en el siguiente sprint dentro
+          de recursos limitados. Esto nos ayudará a entender cómo los diferentes
+          perfiles de participantes abordan la planificación de un sprint y las
+          decisiones de priorización en un entorno ágil.
+        </p>
+        <p className="my-2">
+          Tu tarea será imaginar que estás trabajando en un equipo de desarrollo
+          para mejorar un navegador web. El equipo se encuentra en la fase de
+          planificación y tenés que proponer qué issues del backlog se incluirán
+          en el próximo sprint.
+        </p>
+        <p className="my-2">
+          Si estás dispuesto a participar, hace click en siguiente.
+          <span className="font-bold mx-1">
+            El ejercicio completo te llevará de 10 a 20 minutos.
+          </span>
+        </p>
+        <div className="my-8">
+          <Link to="/demographics">Siguiente</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
