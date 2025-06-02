@@ -13,7 +13,7 @@ export const WelcomePage = () => {
 
   return (
     <div>
-      <Title variant="h1" text="Priorización de Backlog para un Srint" />
+      <Title variant="h1" text="Priorización de Backlog para un Sprint" />
       <div className="my-8">
         <p className="my-2">
           ¡Hola! Desde el Centro de Investigación LIFIA de la UNLP te
