@@ -22,6 +22,7 @@ interface PriorizationItemProps {
 export const PriorizationItem: React.FC<PriorizationItemProps> = ({
   item,
   onClick,
+  selected,
 }) => {
   const handleCheckCange = (checked: boolean) => {
     onClick(item, checked);
@@ -53,8 +54,12 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
   return (
     <Card className={severityColors[item.severity]}>
       <CardHeader>
-        <CardTitle className="flex gap-2">
-          <Checkbox onCheckedChange={handleCheckCange} />
+        <CardTitle className="flex gap-2 items-center">
+          <Checkbox
+            onCheckedChange={handleCheckCange}
+            className="bg-white text-slate-800 w-4 h-4"
+            checked={selected}
+          />
           {item.description}
         </CardTitle>
         <CardDescription>{item.contribution}</CardDescription>

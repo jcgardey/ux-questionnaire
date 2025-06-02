@@ -42,6 +42,10 @@ export const PriorizationPage = () => {
     });
   };
 
+  const clearSelectedItems = () => {
+    setSelectedItems([]);
+  };
+
   const unassignedEffort =
     questionnaire.avaible_effort -
     selectedItems.reduce((acc, item) => acc + item.effort, 0);
@@ -52,37 +56,48 @@ export const PriorizationPage = () => {
       <p className="my-2">
         Estás trabajando en un proyecto de desarrollo de un navegador web. El
         equipo sigue una metodología ágil y está en la fase de planificación
-        para los próximos sprints. Hay 25 issues en el backlog que incluyen
-        tareas técnicas y tareas de UX. Se te pide que propongas cuáles deberían
-        incluirse en el próximo sprint.
+        para los próximos sprints.
+      </p>
+
+      <p className="my-2">
+        Hay 25 issues en el backlog que incluyen tareas técnicas y tareas de UX.
+      </p>
+
+      <p className="my-2">
+        Se te pide que propongas cuáles deberían incluirse en el próximo sprint.
       </p>
 
       <h6>Tene en cuenta estos criterios:</h6>
-      <ol>
+      <ol className="list-decimal ml-8 my-2 flex flex-col gap-2">
         <li>
-          Objetivo del Sprint: El objetivo de este sprint es mejorar la UX y
-          mantener la estabilidad técnica del producto.
+          <span className="font-bold">Objetivo del Sprint:</span> El objetivo de
+          este sprint es mejorar la UX y mantener la estabilidad técnica del
+          producto.
         </li>
         <li>
-          Restricciones: Este sprint debe incluir 10 issues con un esfuerzo
-          total no mayor a 100 horas.
+          <span className="font-bold">Restricciones:</span> Este sprint debe
+          incluir 10 issues con un esfuerzo total no mayor a 100 horas.
         </li>
         <li>
-          Criterios de Priorización:
-          <ul>
-            <li>UX: Priorizá issues que mejoren significativamente la UX.</li>
+          <span className="font-bold">Criterios de Priorización:</span>
+          <ul className="list-disc ml-8">
             <li>
-              Técnico: Asegura que los problemas técnicos críticos sean
-              resueltos, sin descuidar la UX.
+              <span className="font-bold">UX:</span> Priorizá issues que mejoren
+              significativamente la UX.
             </li>
             <li>
-              Severidad: Los issues con alta severidad deben ser resueltos si
-              afectan la estabilidad del sistema o la usabilidad.
+              <span className="font-bold">Técnico:</span> Asegura que los
+              problemas técnicos críticos sean resueltos, sin descuidar la UX.
+            </li>
+            <li>
+              <span className="font-bold">Severidad:</span> Los issues con alta
+              severidad deben ser resueltos si afectan la estabilidad del
+              sistema o la usabilidad.
             </li>
           </ul>
         </li>
       </ol>
-      <p>
+      <p className="my-4">
         Para cada issue se indica su descripcion, la categoría que tiene
         asociada (UX o Técnico) y el Esfuerzo estimado en horas para
         implementarlo
@@ -94,19 +109,23 @@ export const PriorizationPage = () => {
               key={item.code}
               item={item}
               onClick={handleItemClick}
-              selected={selectedItems.includes(item)}
+              selected={selectedItems.some((it) => it.id === item.id)}
             />
           ))}
         </div>
-        <div className="my-8">
+        <div className="my-8 flex justify-center items-center gap-4">
           <Button
             variant={'outline'}
             disabled={
               unassignedEffort < 0 ||
-              selectedItems.length > questionnaire.selectable_items
+              selectedItems.length > questionnaire.selectable_items ||
+              !selectedItems.length
             }
           >
             Finalizar
+          </Button>
+          <Button variant={'secondary'} onClick={clearSelectedItems}>
+            Limpiar selección
           </Button>
         </div>
       </form>
