@@ -1,39 +1,54 @@
 import { PriorizationItem } from '@/components/Priorization/PriorizationItem';
+import { Title } from '@/components/Title';
 import { Button } from '@/components/ui/button';
 import {
-  getQuestionnaire,
   type Questionnaire,
   type QuestionnaireItem,
 } from '@/services/questionnaire';
-import { useEffect, useState } from 'react';
+import { addItemsToQuestionnaireResponse } from '@/services/responses';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export const PriorizationPage = () => {
-  const [questionnaire, setQuestionnaire] = useState<Questionnaire | null>(
-    null
-  );
+  const questionnaire = JSON.parse(
+    localStorage.getItem('questionnaire') || 'null'
+  ) as Questionnaire | null;
   const [selectedItems, setSelectedItems] = useState<QuestionnaireItem[]>([]);
 
-  useEffect(() => {
-    getQuestionnaire().then((data) => {
-      setQuestionnaire(data);
-    });
-  }, []);
+  const navigate = useNavigate();
+  const participantId = localStorage.getItem('participantId');
 
-  if (!questionnaire) {
-    return <div>Loading...</div>;
+  if (!participantId || !questionnaire) {
+    navigate('/welcome');
+    return;
   }
 
-  const handleItemClick = (item: QuestionnaireItem) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(selectedItems.filter((i) => i !== item));
+  const handleItemClick = (item: QuestionnaireItem, selected: boolean) => {
+    if (!selected) {
+      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
     } else {
       setSelectedItems([...selectedItems, item]);
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addItemsToQuestionnaireResponse({
+      participantId: participantId as string,
+      items: selectedItems.map((i) => i.id),
+    }).then(() => {
+      localStorage.removeItem('participantId');
+      navigate('/success');
+    });
+  };
+
+  const unassignedEffort =
+    questionnaire.avaible_effort -
+    selectedItems.reduce((acc, item) => acc + item.effort, 0);
+
   return (
     <div>
-      <h1>Tarea de priorización</h1>
+      <Title variant="h2" text="Tarea de priorización" />
       <p className="my-2">
         Estás trabajando en un proyecto de desarrollo de un navegador web. El
         equipo sigue una metodología ágil y está en la fase de planificación
@@ -72,17 +87,38 @@ export const PriorizationPage = () => {
         asociada (UX o Técnico) y el Esfuerzo estimado en horas para
         implementarlo
       </p>
-      <div className="my-8 flex flex-col gap-4">
-        {questionnaire.items.map((item) => (
-          <PriorizationItem
-            key={item.code}
-            item={item}
-            onClick={handleItemClick}
-          />
-        ))}
-      </div>
-      <div className="my-8">
-        <Button variant={'outline'}>Finalizar</Button>
+      <form onSubmit={handleSubmit}>
+        <div className="my-8 flex flex-col gap-4">
+          {questionnaire.items.map((item) => (
+            <PriorizationItem
+              key={item.code}
+              item={item}
+              onClick={handleItemClick}
+              selected={selectedItems.includes(item)}
+            />
+          ))}
+        </div>
+        <div className="my-8">
+          <Button
+            variant={'outline'}
+            disabled={
+              unassignedEffort < 0 ||
+              selectedItems.length > questionnaire.selectable_items
+            }
+          >
+            Finalizar
+          </Button>
+        </div>
+      </form>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-50 p-4 flex items-center gap-4 justify-center">
+        <p className="font-bold">
+          {selectedItems.length} ítem/s seleccionado/s
+        </p>
+        <p>
+          <span className="font-bold">Horas disponibles:</span>{' '}
+          {unassignedEffort} / {questionnaire.avaible_effort}
+        </p>
       </div>
     </div>
   );

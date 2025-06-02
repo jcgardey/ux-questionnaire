@@ -5,8 +5,31 @@ export interface Participant extends ParticipantData {
   id: string;
 }
 
+interface CreateQuestionnaireResponseData {
+  participant: ParticipantData;
+  questionnaireId: string;
+}
+
 export const createQuestionnaireResponse = (
-  data: ParticipantData
+  data: CreateQuestionnaireResponseData
 ): Promise<Participant> => {
-  return api.post('/responses/new', data).then((response) => response.data);
+  return api
+    .post(
+      `/responses/questionnaire/${data.questionnaireId}/new`,
+      data.participant
+    )
+    .then((response) => response.data);
+};
+
+interface AddItemsData {
+  participantId: string;
+  items: number[];
+}
+
+export const addItemsToQuestionnaireResponse = (
+  data: AddItemsData
+): Promise<void> => {
+  return api
+    .put(`/responses/${data.participantId}/add-items`, { items: data.items })
+    .then((response) => response.data);
 };

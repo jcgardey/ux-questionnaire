@@ -4,6 +4,7 @@ export type Category = 'UX' | 'TE' | 'MX';
 export type Severity = 'H' | 'M' | 'L';
 
 export interface QuestionnaireItem {
+  id: number;
   code: string;
   description: string;
   contribution: string;
@@ -13,8 +14,11 @@ export interface QuestionnaireItem {
 }
 
 export interface Questionnaire {
+  id: string;
   name: string;
   items: QuestionnaireItem[];
+  avaible_effort: number;
+  selectable_items: number;
 }
 
 export const getQuestionnaire = (): Promise<Questionnaire> =>

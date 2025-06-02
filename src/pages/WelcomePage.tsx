@@ -1,8 +1,15 @@
 import { Title } from '@/components/Title';
-import { Button } from '@/components/ui/button';
+import { getQuestionnaire } from '@/services/questionnaire';
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 
 export const WelcomePage = () => {
+  useEffect(() => {
+    getQuestionnaire().then((data) => {
+      localStorage.setItem('questionnaire', JSON.stringify(data));
+    });
+  }, []);
+
   return (
     <div>
       <Title variant="h1" text="Priorización de Backlog para un Srint" />

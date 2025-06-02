@@ -3,14 +3,27 @@ import {
   type ParticipantData,
 } from '@/components/Demographics/ParticipationForm';
 import { Title } from '@/components/Title';
+import type { Questionnaire } from '@/services/questionnaire';
 import { createQuestionnaireResponse } from '@/services/responses';
 import { useNavigate } from 'react-router';
 
 export const DemographicsPage = () => {
   let navigate = useNavigate();
 
+  const questionnaire = JSON.parse(
+    localStorage.getItem('questionnaire') || 'null'
+  ) as Questionnaire | null;
+
+  if (!questionnaire) {
+    navigate('/welcome');
+    return null;
+  }
+
   const handleSubmit = (data: ParticipantData) => {
-    createQuestionnaireResponse(data).then((participant) => {
+    createQuestionnaireResponse({
+      questionnaireId: questionnaire.id,
+      participant: data,
+    }).then((participant) => {
       localStorage.setItem('participantId', participant.id);
       navigate('/priorization');
     });

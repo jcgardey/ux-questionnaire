@@ -11,18 +11,20 @@ import type {
   QuestionnaireItem,
   Severity,
 } from '@/services/questionnaire';
+import { Checkbox } from '../ui/checkbox';
 
 interface PriorizationItemProps {
   item: QuestionnaireItem;
-  onClick: (item: QuestionnaireItem) => void;
+  onClick: (item: QuestionnaireItem, selected: boolean) => void;
+  selected: boolean;
 }
 
 export const PriorizationItem: React.FC<PriorizationItemProps> = ({
   item,
   onClick,
 }) => {
-  const handleClick = () => {
-    onClick(item);
+  const handleCheckCange = (checked: boolean) => {
+    onClick(item, checked);
   };
 
   const categoryColors: Record<Category, string> = {
@@ -49,14 +51,17 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
   };
 
   return (
-    <Card
-      onClick={handleClick}
-      className={`cursor-pointer ${severityColors[item.severity]}`}
-    >
+    <Card className={severityColors[item.severity]}>
       <CardHeader>
-        <CardTitle>{item.description}</CardTitle>
+        <CardTitle className="flex gap-2">
+          <Checkbox onCheckedChange={handleCheckCange} />
+          {item.description}
+        </CardTitle>
         <CardDescription>{item.contribution}</CardDescription>
-        <CardAction className="flex flex-row gap-2">
+        <CardAction className="flex flex-row items-center gap-2">
+          <p className="flex items-center gap-1">
+            Esfuerzo: <span className="font-medium text-xl">{item.effort}</span>
+          </p>
           <div
             className={`w-34 p-1 text-center rounded ${
               severityColors[item.severity]
