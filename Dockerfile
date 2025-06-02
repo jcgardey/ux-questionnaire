@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 RUN apk add --no-cache git
-RUN git clone https://github.com/jcgardey/ux-questionnaire-front.git
+RUN git clone https://github.com/jcgardey/ux-questionnaire.git
 
-WORKDIR /app/ux-questionnaire-front
+WORKDIR /app/ux-questionnaire
 
 RUN npm install serve -g
 RUN npm install
