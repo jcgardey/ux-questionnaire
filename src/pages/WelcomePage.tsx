@@ -1,4 +1,5 @@
 import { Title } from '@/components/Title';
+import { Button } from '@/components/ui/button';
 import { getQuestionnaire } from '@/services/questionnaire';
 import { useEffect } from 'react';
 import { Link } from 'react-router';
@@ -39,7 +40,12 @@ export const WelcomePage = () => {
           </span>
         </p>
         <div className="my-8">
-          <Link to="/demographics">Siguiente</Link>
+          <Link
+            className="border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 rounded"
+            to="/demographics"
+          >
+            Siguiente
+          </Link>
         </div>
       </div>
     </div>
