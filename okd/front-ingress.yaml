@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ux-questionnaire-front
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+    - host: ux-questionnaire.okd.lifia.info.unlp.edu.ar
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ux-questionnaire-front
+              servicePort: 3000
