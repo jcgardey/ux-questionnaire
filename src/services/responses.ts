@@ -1,6 +1,13 @@
 import type { ParticipantData } from '@/components/Demographics/ParticipationForm';
 import api from './api';
-import type { AgileExperience, Gender, ProjectType, Role, RoleExperience, SprintPlanningExperience } from '@/types/response';
+import type {
+  AgileExperience,
+  Gender,
+  ProjectType,
+  Role,
+  RoleExperience,
+  SprintPlanningExperience,
+} from '@/types/response';
 import type { QuestionnaireItem } from './questionnaire';
 
 export interface Participant extends ParticipantData {
@@ -36,8 +43,14 @@ export const addItemsToQuestionnaireResponse = (
     .then((response) => response.data);
 };
 
+interface QuestionnaireResponseItem {
+  id: string;
+  questionnaire_item: QuestionnaireItem;
+}
+
 export interface QuestionnaireResponse {
   id: string;
+  created_at: string;
   age: number;
   gender: Gender;
   role: Role;
@@ -46,14 +59,12 @@ export interface QuestionnaireResponse {
   project_type: ProjectType;
   project_type_other?: string;
   sprint_planning_experience: SprintPlanningExperience;
-  items: QuestionnaireItem[];
+  response_items: QuestionnaireResponseItem[];
 }
 
-export const getAllQuestionnaireResponses = () : Promise<QuestionnaireResponse[]> => { 
-  /*
-  return api
-    .get('/questionnaire/responses')
-    .then((response) => response.data);
-    */
-   return Promise.resolve([]); // Placeholder for actual implementation
-}
+export const getAllQuestionnaireResponses = (): Promise<
+  QuestionnaireResponse[]
+> => {
+  return api.get('/questionnaire/responses').then((response) => response.data);
+  // Placeholder for actual implementation
+};

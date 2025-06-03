@@ -8,21 +8,24 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getAllQuestionnaireResponses, type QuestionnaireResponse } from '@/services/responses';
+import {
+  getAllQuestionnaireResponses,
+  type QuestionnaireResponse,
+} from '@/services/responses';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 export const SamplesPage = () => {
-
   const [responses, setResponses] = useState<QuestionnaireResponse[]>([]);
 
   useEffect(() => {
     getAllQuestionnaireResponses().then((data) => {
       setResponses(data);
-    })
+    });
   }, []);
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className="flex flex-col gap-4">
       <Title variant="h2" text="Respuestas" />
       <div>
         <Button variant={'outline'}>Exportar muestras</Button>
@@ -30,6 +33,7 @@ export const SamplesPage = () => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Fecha</TableHead>
             <TableHead>Edad</TableHead>
             <TableHead>G&eacute;nero</TableHead>
             <TableHead>Rol</TableHead>
@@ -42,21 +46,16 @@ export const SamplesPage = () => {
         <TableBody>
           {responses.map((response) => (
             <TableRow key={response.id}>
-              <TableCell className="font-medium">{response.age}</TableCell>
+              <TableCell>
+                {dayjs(response.created_at).format('DD/MM/YYYY HH:mm:ss')}
+              </TableCell>
+              <TableCell>{response.age}</TableCell>
               <TableCell>{response.gender}</TableCell>
               <TableCell>{response.role}</TableCell>
-              <TableCell>
-                {response.role_experience}
-              </TableCell>
-              <TableCell>
-                {response.agile_experience}
-              </TableCell>
-              <TableCell>
-                {response.project_type}
-              </TableCell>
-              <TableCell>
-                {response.sprint_planning_experience}
-              </TableCell>
+              <TableCell>{response.role_experience}</TableCell>
+              <TableCell>{response.agile_experience}</TableCell>
+              <TableCell>{response.project_type}</TableCell>
+              <TableCell>{response.sprint_planning_experience}</TableCell>
             </TableRow>
           ))}
         </TableBody>
