@@ -52,7 +52,7 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
   };
 
   return (
-    <Card className={severityColors[item.severity]}>
+    <Card>
       <CardHeader>
         <CardTitle className="flex gap-2 items-center">
           <Checkbox
@@ -65,10 +65,11 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
         <CardDescription>{item.contribution}</CardDescription>
         <CardAction className="flex flex-row items-center gap-2">
           <p className="flex items-center gap-1">
-            Esfuerzo: <span className="font-medium text-xl">{item.effort}</span>
+            Esfuerzo:{' '}
+            <span className="font-medium text-xl">{item.effort} HS</span>
           </p>
           <div
-            className={`w-34 p-1 text-center rounded ${
+            className={`w-34 p-1 text-center rounded-full ${
               severityColors[item.severity]
             }`}
           >
@@ -76,7 +77,7 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
             <span className="font-bold">{severityLabels[item.severity]}</span>
           </div>
           <div
-            className={`w-20 p-1 text-center rounded ${
+            className={`w-20 text-center rounded-full ${
               categoryColors[item.category]
             }`}
           >

@@ -75,8 +75,8 @@ export const PriorizationPage = () => {
           producto.
         </li>
         <li>
-          <span className="font-bold">Restricciones:</span> Este sprint debe
-          incluir 10 issues con un esfuerzo total no mayor a 100 horas.
+          <span className="font-bold">Restricciones:</span> Para este sprint se
+          cuenta con un máximo de 100 horas asignables.
         </li>
         <li>
           <span className="font-bold">Criterios de Priorización:</span>
