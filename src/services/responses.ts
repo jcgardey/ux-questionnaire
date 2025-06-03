@@ -36,7 +36,7 @@ export const addItemsToQuestionnaireResponse = (
     .then((response) => response.data);
 };
 
-interface QuestionnaireResponse {
+export interface QuestionnaireResponse {
   id: string;
   age: number;
   gender: Gender;
@@ -50,7 +50,10 @@ interface QuestionnaireResponse {
 }
 
 export const getAllQuestionnaireResponses = () : Promise<QuestionnaireResponse[]> => { 
+  /*
   return api
     .get('/questionnaire/responses')
     .then((response) => response.data);
+    */
+   return Promise.resolve([]); // Placeholder for actual implementation
 }
