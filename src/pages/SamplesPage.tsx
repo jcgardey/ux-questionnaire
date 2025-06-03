@@ -51,7 +51,9 @@ export const SamplesPage = () => {
             <TableHead>Experiencia Rol</TableHead>
             <TableHead>Experiencia Agiles</TableHead>
             <TableHead>Tipo de proyecto</TableHead>
+            <TableHead>Otro tipo de proyecto</TableHead>
             <TableHead>Experiencia Sprint Planning</TableHead>
+            <TableHead>Issues Seleccionados</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,7 +68,13 @@ export const SamplesPage = () => {
               <TableCell>{response.role_experience}</TableCell>
               <TableCell>{response.agile_experience}</TableCell>
               <TableCell>{response.project_type}</TableCell>
+              <TableCell>{response.project_type_other}</TableCell>
               <TableCell>{response.sprint_planning_experience}</TableCell>
+              <TableCell>
+                {response.response_items
+                  .map((ri) => ri.questionnaire_item.code)
+                  .join(', ')}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
