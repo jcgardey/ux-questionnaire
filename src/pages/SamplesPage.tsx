@@ -9,11 +9,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
+  exportAllQuestionnaireResponses,
   getAllQuestionnaireResponses,
   type QuestionnaireResponse,
 } from '@/services/responses';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { saveFile } from '@/utils/file';
 
 export const SamplesPage = () => {
   const [responses, setResponses] = useState<QuestionnaireResponse[]>([]);
@@ -24,11 +26,20 @@ export const SamplesPage = () => {
     });
   }, []);
 
+  const handleExport = () => {
+    // Implement export logic here
+    exportAllQuestionnaireResponses().then((blob) => {
+      saveFile('respuestas.csv', blob);
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Title variant="h2" text="Respuestas" />
       <div>
-        <Button variant={'outline'}>Exportar muestras</Button>
+        <Button variant={'outline'} onClick={handleExport}>
+          Exportar muestras
+        </Button>
       </div>
       <Table>
         <TableHeader>

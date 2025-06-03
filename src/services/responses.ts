@@ -68,3 +68,11 @@ export const getAllQuestionnaireResponses = (): Promise<
   return api.get('/questionnaire/responses').then((response) => response.data);
   // Placeholder for actual implementation
 };
+
+export const exportAllQuestionnaireResponses = (): Promise<Blob> => {
+  return api
+    .get('/questionnaire/responses/export', {
+      responseType: 'blob',
+    })
+    .then((response) => response.data);
+};
