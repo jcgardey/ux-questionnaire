@@ -69,7 +69,7 @@ export const PriorizationItem: React.FC<PriorizationItemProps> = ({
             <span className="font-medium text-xl">{item.effort} HS</span>
           </p>
           <div
-            className={`w-34 p-1 text-center rounded-full ${
+            className={`w-34 px-0.5 text-center rounded-full ${
               severityColors[item.severity]
             }`}
           >

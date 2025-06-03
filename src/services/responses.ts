@@ -76,3 +76,11 @@ export const exportAllQuestionnaireResponses = (): Promise<Blob> => {
     })
     .then((response) => response.data);
 };
+
+export const deleteQuestionnaireResponse = (
+  responseId: string
+): Promise<void> => {
+  return api
+    .delete(`responses/${responseId}/delete`)
+    .then((response) => response.data);
+};

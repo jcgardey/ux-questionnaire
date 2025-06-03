@@ -4,11 +4,13 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
 import {
+  deleteQuestionnaireResponse,
   exportAllQuestionnaireResponses,
   getAllQuestionnaireResponses,
   type QuestionnaireResponse,
@@ -16,6 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { saveFile } from '@/utils/file';
+import { TrashIcon } from 'lucide-react';
 
 export const SamplesPage = () => {
   const [responses, setResponses] = useState<QuestionnaireResponse[]>([]);
@@ -33,6 +36,20 @@ export const SamplesPage = () => {
     });
   };
 
+  const handleDelete = (response: QuestionnaireResponse) => {
+    if (
+      confirm(
+        `¿Estás seguro de eliminar la respuesta del ${dayjs(
+          response.created_at
+        ).format('DD/MM/YYYY HH:mm:ss')}?`
+      )
+    ) {
+      deleteQuestionnaireResponse(response.id).then(() => {
+        setResponses(responses.filter((r) => r.id !== response.id));
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Title variant="h2" text="Respuestas" />
@@ -41,6 +58,10 @@ export const SamplesPage = () => {
           Exportar muestras
         </Button>
       </div>
+      <p>
+        Cantidad de respuestas:{' '}
+        <span className="font-medium">{responses.length}</span>
+      </p>
       <Table>
         <TableHeader>
           <TableRow>
@@ -54,6 +75,7 @@ export const SamplesPage = () => {
             <TableHead>Otro tipo de proyecto</TableHead>
             <TableHead>Experiencia Sprint Planning</TableHead>
             <TableHead>Issues Seleccionados</TableHead>
+            <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -74,6 +96,16 @@ export const SamplesPage = () => {
                 {response.response_items
                   .map((ri) => ri.questionnaire_item.code)
                   .join(', ')}
+              </TableCell>
+              <TableCell>
+                <Button
+                  size="icon"
+                  onClick={() => {
+                    handleDelete(response);
+                  }}
+                >
+                  <TrashIcon color="red" />
+                </Button>
               </TableCell>
             </TableRow>
           ))}
