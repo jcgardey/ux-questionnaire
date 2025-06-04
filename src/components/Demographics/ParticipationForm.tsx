@@ -3,7 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { AgileExperience, Gender, ProjectType, Role, RoleExperience, SprintPlanningExperience } from '@/types/response';
+import type {
+  AgileExperience,
+  Gender,
+  ProjectType,
+  Role,
+  RoleExperience,
+  SprintPlanningExperience,
+} from '@/types/response';
 
 interface ParticipationFormProps {
   onSubmit: (data: ParticipantData) => void;
@@ -116,7 +123,7 @@ export const ParticipantForm: React.FC<ParticipationFormProps> = ({
             </Label>
           </div>
           <div className="flex gap-2 items-center">
-            <RadioGroupItem value="UN" id="genero-prefiero" />
+            <RadioGroupItem value="U" id="genero-prefiero" />
             <Label className="font-normal" htmlFor="genero-prefiero">
               Prefiero no decirlo
             </Label>
@@ -158,19 +165,19 @@ export const ParticipantForm: React.FC<ParticipationFormProps> = ({
           onValueChange={(value) => handleRadioChange('role_experience', value)}
         >
           <div className="flex gap-2 items-center">
-            <RadioGroupItem value="menos de un año" id="exp-menos" />
+            <RadioGroupItem value="<1" id="exp-menos" />
             <Label className="font-normal" htmlFor="exp-menos">
               Menos de un año
             </Label>
           </div>
           <div className="flex gap-2 items-center">
-            <RadioGroupItem value="<1" id="exp-1-3" />
+            <RadioGroupItem value="1-3" id="exp-1-3" />
             <Label className="font-normal" htmlFor="exp-1-3">
               1 a 3 años
             </Label>
           </div>
           <div className="flex gap-2 items-center">
-            <RadioGroupItem value="1-3" id="exp-3-5" />
+            <RadioGroupItem value="3-5" id="exp-3-5" />
             <Label className="font-normal" htmlFor="exp-3-5">
               3 a 5 años
             </Label>
