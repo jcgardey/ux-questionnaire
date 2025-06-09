@@ -24,22 +24,20 @@ export const PriorizationPage = () => {
   }
 
   const handleItemClick = (item: QuestionnaireItem, selected: boolean) => {
-    if (!selected) {
-      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
+    const newSelection = !selected
+      ? selectedItems.filter((i) => i.id !== item.id)
+      : [...selectedItems, item];
+    setSelectedItems(newSelection);
+    addItemsToQuestionnaireResponse({
+      participantId: participantId as string,
+      items: newSelection.map((i) => i.id),
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addItemsToQuestionnaireResponse({
-      participantId: participantId as string,
-      items: selectedItems.map((i) => i.id),
-    }).then(() => {
-      localStorage.removeItem('participantId');
-      navigate('/success');
-    });
+    localStorage.removeItem('participantId');
+    navigate('/success');
   };
 
   const clearSelectedItems = () => {
